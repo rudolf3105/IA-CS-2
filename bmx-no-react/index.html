@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMX Skills Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body class="bg-danger text-white">
+    <div class="container mt-4">
+      <div class="row">
+        <div class="bg-primary text-white p-3 col-12">
+          <h1>Filippo</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4 mx-3">
+      <div class="col-md-6">
+        <h3>BMX Skills</h3>
+        <ul class="list-group" id="skillsList">
+          <!-- Populate by JS later -->
+        </ul>
+      </div>
+      <!-- Youtube Video Frame -->
+      <div class="col-md-6">
+        <iframe
+          src="https://www.youtube.com/embed/AKMuA_TVz3A"
+          frameborder="0"
+          width="100%"
+          height="300"
+          id="videoFrame"
+          allowfullscreen
+        >
+        </iframe>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h3>How To Perform</h3>
+          <p id="instructionText">Will populate later using js</p>
+        </div>
+
+        <div class="col-md-6">
+          <h3>Skill Progress</h3>
+          <canvas id="progressChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tricks = [
+        {
+          trickName: "180",
+          videoId: "AKMuA_TVz3A",
+          instruction: "Lorem ipsum dolor sit amet consectetur adipisicing.",
+        },
+        {
+          trickName: "360",
+          videoId: "D5z4pYdoew",
+          instruction:
+            "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
+        },
+        {
+          trickName: "360",
+          videoId: "D5z4pYdoew",
+          instruction:
+            "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
+        },
+        {
+          trickName: "360",
+          videoId: "D5z4pYdoew",
+          instruction:
+            "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
+        },
+      ];
+      console.log("Hello");
+
+      const populateSkillList = () => {
+        const skillsList = document.getElementById("skillsList");
+        tricks.forEach((trick, index) => {
+          const listItem = document.createElement("li");
+          listItem.className = "list-group-item";
+          listItem.innerText = trick.trickName;
+          listItem.addEventListener("click", () => {
+            displayDetails();
+            //Do this later
+          });
+          skillsList.appendChild(listItem);
+        });
+      };
+
+      populateSkillList();
+    </script>
+  </body>
+</html>
+
