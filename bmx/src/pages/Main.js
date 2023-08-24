@@ -1,6 +1,6 @@
-import './App.css';
 
-function App() {
+
+function Main() {
 
   const fullScreenDivStyle = {
     display: 'flex',
@@ -130,4 +130,4 @@ function App() {
   );
 }
 
-export default App;
+export default Main;
