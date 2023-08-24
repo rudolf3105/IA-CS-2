@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BMX Skills Dashboard</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
   </head>
   <body class="bg-danger text-white">
@@ -39,14 +36,15 @@
         </iframe>
       </div>
       <div class="row mt-4">
-        <div class="col-md-6">
-          <h3>How To Perform</h3>
-          <p id="instructionText">Will populate later using js</p>
-        </div>
 
         <div class="col-md-6">
           <h3>Skill Progress</h3>
           <canvas id="progressChart"></canvas>
+        </div>
+
+        <div class="col-md-6">
+          <h3>How To Perform</h3>
+          <p id="instructionText">Will populate later using js</p>
         </div>
       </div>
     </div>
@@ -54,12 +52,18 @@
     <script>
       const tricks = [
         {
-          trickName: "180",
+          trickName: "Hollie",
           videoId: "AKMuA_TVz3A",
           instruction: "Lorem ipsum dolor sit amet consectetur adipisicing.",
         },
         {
-          trickName: "360",
+          trickName: "Bunny Hop",
+          videoId: "D5z4pYdoew",
+          instruction:
+            "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
+        },
+        {
+          trickName: "180",
           videoId: "D5z4pYdoew",
           instruction:
             "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
@@ -71,7 +75,12 @@
             "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
         },
         {
-          trickName: "360",
+          trickName: "Bar Spin",
+          videoId: "D5z4pYdoew",
+          instruction:
+            "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
+        },{
+          trickName: "Tail Whip",
           videoId: "D5z4pYdoew",
           instruction:
             "Lorem ipsum dolor sit amet consectetur adipisicing.Lorem ipsum dolor sit amet consectetur adipisicing",
@@ -84,7 +93,8 @@
         tricks.forEach((trick, index) => {
           const listItem = document.createElement("li");
           listItem.className = "list-group-item";
-          listItem.innerText = trick.trickName;
+          const lable = trick.trickName
+          listItem.innerHTML = '<div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">'+lable+'</div>';
           listItem.addEventListener("click", () => {
             displayDetails();
             //Do this later
@@ -95,6 +105,7 @@
 
       populateSkillList();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
 </html>
 
