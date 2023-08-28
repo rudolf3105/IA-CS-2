@@ -103,7 +103,7 @@ function Main() {
     {
       name: "skill3",
       tutorialText: "Tutorial text for Skill 3",
-      videoUrl: "https://www.youtube.com/embed/0qcWOTXCrUY",
+      videoUrl: "https://www.youtube.com/embed/0qcWOTXRrUY",
       checked: false
     },
   ]
