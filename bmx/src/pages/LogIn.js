@@ -6,50 +6,45 @@ function LogIn() {
       display: "flex",
       width: "100%",
       flex: 1,
-      backgroundColor: "grey",
-      position: "relative",
+      justifyContent: "center",
+      alignItems: "center",
+      //backgroundColor: "grey",
       color: "black",
     },
     container: {
       display: "flex",
-      width: "40%",
+      width: "30%",
+      height: "50%",
       flexDirection: "column",
-      flex: 1,
-      position: "absolute",
-      top:"50%",
-      left:"50%",
-      transform: "translate(-50%, -50%)",
       border: "2px solid black",
     },
     logoContainer: {
       display: "flex",
       width: "100%",
       justifyContent: "center",
-      flex: 1,
     },
     loginContainer: {
       display: "flex",
       flexDirection: "column",
       width: "100%",
-      flex: 2,
-      padding:"4px",
       backgroundColor: "white",
-      border: "2px solid black",
+      //border: "2px solid black",
     },
     component: {
       display: "flex",
       width: "100%",
-      justifyContent: "center",
-      flex: 1,
-      border: "2px solid black",
+      flexDirection: "column",
+      marginBottom: "10px",
+      padding: "15px",
     },
     
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="App" style={{ backgroundImage: "url('../img/ParkImg.jpg')" }}>
+      <header className="App-header" >
         <div style={styles.fullScreenDivStyle}>
+
           <div style={styles.container}>
             <div style={styles.logoContainer}>
               logo image
@@ -58,21 +53,17 @@ function LogIn() {
             <div style={styles.loginContainer}>
               login
               <div style={styles.component}>
-                user
+                <label for="exampleInputPassword1" style={{fontSize:"18px", width: "fit-content", marginBottom:"10px"}}>Username</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Username"/>
               </div>
               <div style={styles.component}>
-                pw
+                <label for="exampleInputPassword1" style={{fontSize:"18px", width:"fit-content", marginBottom:"10px"}}>Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
               </div>
-              <div style={styles.component}>
-                entr button
-              </div>
-            </div>
-            <div style={styles.loginContainer}>
-              <div>
-                or
-              </div>
-              <div style={styles.component}>
-                sign in button
+              <div style={{...styles.component, alignItems: "center",}}>
+                <button type="submit" class="btn btn-primary" >Submit</button>
+                <div style={{marginBottom:"4px", fontSize:"18px"}}>or</div>
+                <button type="submit" class="btn btn-outline-primary">Signin</button>
               </div>
             </div>
           </div>
