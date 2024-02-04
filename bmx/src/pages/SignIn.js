@@ -159,6 +159,7 @@ function LogIn() {
       //check all data
       if (!userNameAvailable && correctCode && samePassword && filled) {
         const userRef = doc(db, 'users', newUser.userName);
+        console.log(newUser©)
         await setDoc(userRef, newUser);
   
         console.log('Document added with ID:', userRef.id);
