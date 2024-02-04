@@ -1,5 +1,11 @@
 import { useState } from "react";
+import logo from '../img/logo.webp';
 import "../App.css";
+import {useLocation, useNavigate } from 'react-router-dom';
+import icon from '../img/profileIcon.jpeg';
+import { db } from '../firebase';
+import { doc, collection, updateDoc } from "firebase/firestore";
+import React, { useEffect } from 'react';
 
 function Main() {
   const styles = {
@@ -13,28 +19,34 @@ function Main() {
     leftContainer: {
       display: "flex",
       flex: 1,
+      height: "100vH",
       flexDirection: "column",
-      border: "2px solid black",
+      backgroundColor:"#ffba00",
+      borderRight: "4px solid black",
+      boxShadow: '1px 2px 9px #F4AAB9',
     },
     webName: {
       display: "flex",
-      flex: 1,
-      //backgroundColor: 'black',
-      border: "2px solid black",
+      padding:"15px",
+      justifyContent: "center",
     },
     tickList: {
       display: "flex",
-      flex: 7,
+      flex: 1,
       flexDirection: "column",
-      padding: "10px",
       border: "2px solid black",
+      padding: "10px",
+      overflow:"auto",
+      marginBottom:"0",
     },
     tick: {
       display: "flex",
       flexDirection: "row",
-      //padding: "10px",
+      marginBottom:"6px",
       border: "2px solid black",
+      borderRadius:"10px",
       alignItems: "center",
+
     },
     listItem: {
       display: "flex",
@@ -44,14 +56,17 @@ function Main() {
     },
     profile: {
       display: "flex",
-      flex: 1.5,
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
       border: "2px solid black",
     },
     rightContainer: {
       display: "flex",
-      flex: 2.5,
+      flex: 3,
+      height: "100vh",
       flexDirection: "column",
-      border: "2px solid black",
+      backgroundColor:"lightGrey",
     },
     videoContainer: {
       display: "flex",
@@ -59,7 +74,6 @@ function Main() {
       alignItems: "center",
       flex: 1,
       flexDirection: "column",
-      border: "2px solid black",
     },
     Title: {
       display: "flex",
@@ -67,7 +81,7 @@ function Main() {
       width: "100%",
       justifyContent: "center",
       alignItems: "center",
-      border: "2px solid black",
+      backgroundColor:"Grey",
     },
     mainContainer: {
       display: "flex",
@@ -75,49 +89,67 @@ function Main() {
       width: "100%",
       justifyContent: "center",
       alignItems: "center",
-      border: "2px solid black",
     },
     tutorialContainer: {
       display: "flex",
       justifyContent: "center",
-      alignItems: "center",
       flex: 1,
+      height:"50vH",
       flexDirection: "column",
-      border: "2px solid black",
     },
+    text: {
+      display: "flex",
+      justifyContent: "center",
+      flex: 8,
+      overflow: "auto",
+      flexDirection: "column",
+    },
+
   };
 
-  const initialSkills = [
-    {
-      name: "skill1",
-      tutorialText: "Tutorial text for Skill 1",
-      videoUrl: "https://www.youtube.com/embed/0qcWOTXCrUY",
-      checked: false
-    },
-    {
-      name: "skill2",
-      tutorialText: "Tutorial text for Skill 2",
-      videoUrl: "https://www.youtube.com/embed/0qcWOTXCrUY",
-      checked: false
-    },
-    {
-      name: "skill3",
-      tutorialText: "Tutorial text for Skill 3",
-      videoUrl: "https://www.youtube.com/embed/0qcWOTXRrUY",
-      checked: false
-    },
-  ]
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const user = location.state && location.state.data;
+
+  const [documentsData, setDocumentsData] = useState([]);
+
+
+  useEffect(() => {
+    setDocumentsData(user.tricks);
+}, [user, setDocumentsData]);
+
+  const updateTrick = async (updatedSkill) => {
+    const collectionRef = collection(db, 'users');
+    const docId = user.userName;
+    const specificDocRef = doc(collectionRef, docId);
+  
+    try {
+      await updateDoc(specificDocRef, {
+        tricks: updatedSkill
+      });
+      console.log("User's trick attribute updated successfully");
+    } catch (error) {
+      console.error("Error updating user's trick attribute", error);
+    }
+  };
 
   const [selectedSkill, setSelectedSkill] = useState(null);
-  const handleSkillClick = (index) => {
-    setSelectedSkill(skills[index]);
+  
+  const handleSkillClick = async (index) => {
+    setSelectedSkill(documentsData[index]);
   };
 
-  const [skills, setSkills] = useState(initialSkills);
   const handleSkillCheck = (index) => {
-    const updatedSkills = [...skills];
+    const updatedSkills = [...documentsData];
     updatedSkills[index].checked = !updatedSkills[index].checked;
-    setSkills(updatedSkills);
+    setDocumentsData(updatedSkills);
+    updateTrick(updatedSkills)
+  };
+
+  const handleProfile = () => {
+    console.log(user)
+    navigate('/profile', { state: { data: user } });
   };
 
 
@@ -126,31 +158,42 @@ function Main() {
       <header className="App-header">
         <div style={styles.fullScreenDivStyle}>
           <div style={styles.leftContainer}>
-            <div style={styles.webName}></div>
-              <div style={styles.tickList}>
-                <ul style={styles.tickList}>
-                  {skills.map((skill, index) => (
-                    <div style={{
-                      ...styles.tick,
-                      backgroundColor: skills[index].checked == true? 'green' : 'red'
-                    }}>
-                      <div>
-                        <button onClick={() => handleSkillCheck(index)}>
-                          O
-                        </button>
-                      </div>
-                      <li
-                      key={index}
-                      style={styles.listItem}
-                      onClick={() => handleSkillClick(index)}
-                      >
-                      {skill.name}
-                      </li>
+            <div style={styles.webName}>
+              <img src={logo} style={{ width: "70%", }} alt="" />
+            </div>
+            <div style={{marginLeft:"10px",marginRight:"10px", display:"flex", flex: 7 , height:"60vh"}}>
+              <ul style={styles.tickList}>
+                {documentsData && documentsData.map((skill, index) => (
+                  <div style={{
+                    ...styles.tick, 
+                    backgroundColor: documentsData[index].checked === true? 'green' : 'red'
+                  }}>
+                    <div class="form-check form-switch" style={{marginLeft:"6px"}}>
+                      <input 
+                        onClick={() => handleSkillCheck(index)} 
+                        style={{backgroundColor:  documentsData[index].checked === true? 'black' : "" }} 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        role="switch" 
+                        checked={documentsData[index].checked}
+                      />
                     </div>
-                  ))}
-                </ul>
-              </div>
-            <div style={styles.profile}></div>
+                    <li
+                    key={index}
+                    style={styles.listItem}
+                    onClick={() => handleSkillClick(index)}
+                    >
+                    {skill.name}
+                    </li>
+                  </div>
+                ))}
+              </ul>
+            </div>
+            <div style={styles.profile}>
+                <button type="submit" class="btn btn-outline-secondary" onClick={handleProfile}>
+                  <img src={icon} style={{ width: "10vh", height:"auto", borderRadius: "50%",}} alt=""/>
+                </button>
+            </div>
           </div>
 
           <div style={styles.rightContainer}>
@@ -159,9 +202,10 @@ function Main() {
               <div style={styles.mainContainer}>
                 {selectedSkill && (
                   <iframe
+                    title="selected video"
                     width="60%"
                     height="100%"
-                    src={selectedSkill.videoUrl}
+                    src={selectedSkill.URLVideo}
                     frameborder="0"
                     allowfullscreen
                   ></iframe>
@@ -170,8 +214,13 @@ function Main() {
             </div>
 
             <div style={styles.tutorialContainer}>
-              <div style={styles.Title}>Tutorial</div>
-              <div style={styles.mainContainer}>{selectedSkill?.tutorialText || ""}</div>
+            <div style={styles.Title}>Tutorial</div>
+              <div style={styles.text}>
+                {selectedSkill && (<div style={{whiteSpace: "pre-line",textAlign: "left", display:"flex", flex:"1", marginBottom:"0", padding:"6px"}}>
+                  {selectedSkill.tutorial} 
+                </div>)}
+              </div>
+              
             </div>
           </div>
         </div>
